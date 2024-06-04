@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ders Kaynak Önerisi</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>Ders Kaynak Önerisi</h1>
+        <p>2 TYT ortalaması</p>
+        <form method="post">
+            <label for="matematik">Matematik Neti:</label>
+            <input type="number" id="matematik" name="Matematik" min="-40" max="40" required>
+            <br>
+            <label for="turkce">Türkçe Neti:</label>
+            <input type="number" id="turkce" name="Türkçe" min="-40" max="40" required>
+            <br>
+            <label for="kimya">Kimya Neti:</label>
+            <input type="number" id="kimya" name="Kimya" min="-7" max="7" required>
+            <br>
+            <label for="fizik">Fizik Neti:</label>
+            <input type="number" id="fizik" name="Fizik" min="-7" max="7" required>
+            <br>
+            <label for="biyoloji">Biyoloji Neti:</label>
+            <input type="number" id="biyoloji" name="Biyoloji" min="-6" max="6" required>
+            <br>
+            <input type="submit" value="Kaynakları Getir">
+        </form>
+    </div>
+    {% if resources %}
+        <div class="resources-container">
+            <h2>Kaynak Önerileri:</h2>
+            <ul>
+                {% for subject, sub_resources in resources.items() %}
+                    <li>{{ subject }}
+                        <ul>
+                            {% for resource_type, resources in sub_resources.items() %}
+                                <li>{{ resource_type }}:
+                                    <ul>
+                                        {% for resource in resources %}
+                                            <li>{{ resource }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,118 @@
+/* Genel ayarlar */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff; /* Alice Blue */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-image: url('ibrahim-onal-fen-lisesi_39_4\ \(1\).png');
+    background-size: 20%;
+}
+
+/* Form kabı */
+.form-container {
+    width: 350px;
+    margin: 50px auto;
+    margin-bottom:0px;
+    padding: 30px;
+    padding-right:40px;
+    vertical-align: center;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    background-color: #ffffff; /* Beyaz */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Daha belirgin gölge */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Başlık */
+h1 {
+    text-align: center;
+    color: rgb(76, 175, 80); /* Orta Deniz Yeşili */
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 1px rgb(76, 175, 80);
+}
+
+/* Etiketler */
+label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #555;
+    font-weight: bold;
+}
+
+/* Giriş alanları ve buton */
+input[type="number"],
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Giriş alanları */
+input[type="number"] {
+    background-color: #f9f9f9; /* Açık Gri */
+}
+
+/* Buton */
+input[type="submit"] {
+    background-color: #4CAF50; /* Orta Deniz Yeşili */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049; /* Deniz Yeşili */
+}
+
+/* İkinci Başlık */
+h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Liste */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+/* Liste Elemanları */
+ul li {
+    background-color: #e3f2fd; /* Açık Mavi */
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Daha hafif gölge */
+    font-size: 18px;
+}
+
+/* Alt Liste */
+ul li ul {
+    margin-top: 10px;
+}
+
+/* Alt Liste Elemanları */
+ul li ul li {
+    background-color: #ffffff; /* Beyaz */
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1); /* Daha hafif gölge */
+    font-size: 16px;
+}
+p{
+    text-align: center;
+    color: #695d30; /* Orta Deniz Yeşili */
+    margin-bottom: 20px;
+    text-shadow: #555;
+}
