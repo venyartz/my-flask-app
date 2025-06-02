@@ -1,0 +1,635 @@
+
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YKS Çalışma Programı</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .program-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option-button {
+            transition: all 0.3s ease;
+        }
+        
+        .option-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .print-button {
+            transition: all 0.3s ease;
+        }
+        
+        .print-button:hover {
+            background-color: #1e40af;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            body {
+                background-color: white;
+            }
+            
+            .container {
+                max-width: 100% !important;
+                width: 100% !important;
+            }
+            
+            .program-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-blue-800 mb-2">YKS ÇALIŞMA PROGRAMI</h1>
+            <p class="text-gray-600 text-lg">20 Haziran - 8 Eylül</p>
+            <div class="w-24 h-1 bg-blue-600 mx-auto mt-4 rounded-full"></div>
+        </header>
+        
+        
+        
+        <!-- TYT Net Hesaplama Formu -->
+        <div id="netHesaplama" class="no-print bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="bg-gradient-to-r from-blue-600 to-blue-800 p-4 text-white">
+                <h2 class="text-xl font-bold mb-1">TYT Net Ortalamanızı Hesaplayın</h2>
+                <p class="text-sm opacity-90">Son 5 TYT denemenizin netlerini girerek size uygun programı belirleyin.</p>
+            </div>
+            
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="mb-4">
+                            <label for="turkce" class="block text-gray-700 font-medium mb-2">TYT Türkçe Netiniz</label>
+                            <div class="relative">
+                                <input type="number" id="turkce" min="0" max="40" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500" placeholder="0-40 arası">
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                    <span>/40</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="sosyal" class="block text-gray-700 font-medium mb-2">TYT Sosyal Netiniz</label>
+                            <div class="relative">
+                                <input type="number" id="sosyal" min="0" max="20" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500" placeholder="0-20 arası">
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                    <span>/20</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="mb-4">
+                            <label for="matematik" class="block text-gray-700 font-medium mb-2">TYT Matematik Netiniz</label>
+                            <div class="relative">
+                                <input type="number" id="matematik" min="0" max="40" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500" placeholder="0-40 arası">
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                    <span>/40</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="fen" class="block text-gray-700 font-medium mb-2">TYT Fen Netiniz</label>
+                            <div class="relative">
+                                <input type="number" id="fen" min="0" max="20" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:border-blue-500" placeholder="0-20 arası">
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+                                    <span>/20</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-2 mb-6">
+                    <div id="errorMessage" class="hidden text-red-600 text-sm mb-2">
+                        Lütfen tüm alanları doldurun ve geçerli değerler girin.
+                    </div>
+                    <button onclick="hesaplaNet()" class="w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors">
+                        Hesapla ve Uygun Programı Göster
+                    </button>
+                </div>
+                
+                <div id="sonucAlani" class="hidden">
+                    <div class="border-t border-gray-200 pt-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-700 font-medium">TYT Net Ortalamanız:</span>
+                            <span id="netOrtalama" class="text-lg font-bold text-blue-700">0</span>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h3 class="font-semibold text-blue-800 mb-2">Size Önerilen Program:</h3>
+                            <p id="programOneri" class="text-gray-700"></p>
+                            <button onclick="gosterProgram()" class="mt-3 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors">
+                                Programı Görüntüle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Program Seçim Alanı -->
+        <div id="programSecim" class="no-print bg-white rounded-xl shadow-lg overflow-hidden mb-8 hidden">
+            <div class="bg-gray-100 p-4 border-b">
+                <h2 class="text-xl font-bold text-gray-800">Programınızı Seçin</h2>
+                <p class="text-gray-600 mt-1">Size en uygun çalışma programını seçerek detayları görüntüleyin.</p>
+            </div>
+            
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <button onclick="showProgram('program1')" class="option-button bg-white border-2 border-blue-600 rounded-xl p-5 text-left shadow-sm hover:shadow-md focus:outline-none">
+                        <h3 class="text-lg font-bold text-blue-800 mb-2">SEÇENEK 1</h3>
+                        <h4 class="text-md font-semibold text-gray-700 mb-3">AYT Ağırlıklı Program</h4>
+                        <p class="text-sm text-gray-600 mb-3">TYT deneme ortalaması 70 net üzeri veya okul sıralaması ilk 15'te olan öğrenciler için.</p>
+                        <div class="flex items-center text-blue-700">
+                            <span class="font-medium">Detayları Görüntüle</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </button>
+                    
+                    <button onclick="showProgram('program2')" class="option-button bg-white border-2 border-green-600 rounded-xl p-5 text-left shadow-sm hover:shadow-md focus:outline-none">
+                        <h3 class="text-lg font-bold text-green-800 mb-2">SEÇENEK 2</h3>
+                        <h4 class="text-md font-semibold text-gray-700 mb-3">TYT ve AYT Dengeli Program</h4>
+                        <p class="text-sm text-gray-600 mb-3">TYT ve AYT'yi dengeli çalışmak isteyen öğrenciler için.</p>
+                        <div class="flex items-center text-green-700">
+                            <span class="font-medium">Detayları Görüntüle</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </button>
+                    
+                    <button onclick="showProgram('program3')" class="option-button bg-white border-2 border-purple-600 rounded-xl p-5 text-left shadow-sm hover:shadow-md focus:outline-none">
+                        <h3 class="text-lg font-bold text-purple-800 mb-2">SEÇENEK 3</h3>
+                        <h4 class="text-md font-semibold text-gray-700 mb-3">TYT Odaklı Program</h4>
+                        <p class="text-sm text-gray-600 mb-3">TYT'ye odaklanmak isteyen öğrenciler için.</p>
+                        <div class="flex items-center text-purple-700">
+                            <span class="font-medium">Detayları Görüntüle</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Program Detayları -->
+        <div id="programDetails" class="hidden">
+            <div class="mb-6 no-print">
+                <button onclick="hideProgram()" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Geri Dön
+                </button>
+            </div>
+            
+            <!-- Program 1 -->
+            <div id="program1" class="program-content hidden">
+                <div class="program-card bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-blue-600 mb-8">
+                    <div class="bg-blue-50 p-4">
+                        <h2 class="text-xl font-bold text-blue-800 mb-1">SEÇENEK 1</h2>
+                        <h3 class="text-lg font-semibold text-gray-700">AYT Ağırlıklı Program</h3>
+                        <p class="text-sm text-gray-600 mt-2">
+                            <span class="font-medium">Kimler için:</span> TYT deneme ortalaması 70 net üzeri veya okul sıralaması ilk 15'te olan öğrenciler
+                        </p>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="font-medium">Günlük Çalışma: 7 Saat</span>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-blue-600 mr-2"></div>
+                                <span class="text-gray-700">2,5 saat AYT Matematik</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                                <span class="text-gray-700">1,5 saat AYT Fizik</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+                                <span class="text-gray-700">1,5 saat AYT Kimya</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                                <span class="text-gray-700">1,5 saat Geometri</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                                Önerilen Kaynaklar
+                            </h4>
+                            <ul class="text-sm text-gray-600 space-y-1 pl-5 list-disc">
+                                <li>3D VDD AYT Matematik</li>
+                                <li>Özcan Aykın AYT Fizik Video Kitabı</li>
+                                <li>Benim Hocam AYT Kimya Video Kitabı</li>
+                                <li>Orijinal Geometri Soru Bankası</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-3 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-1 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Hedef
+                            </h4>
+                            <p class="text-sm text-gray-600">11. sınıf ve 12. sınıf tüm konuları tamamen bitirilecek.</p>
+                        </div>
+                        
+                        <div class="mt-5 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Önemli Not
+                            </h4>
+                            <p class="text-sm text-gray-700">
+                                20 Haziran'da başlayacak programımız, 8 Eylül'de tamamlanacaktır. Başlamadan önce 1 haftalık bir tatil planladık. Bu sürede öğrencilerimizden dersle ilgili hiçbir şey yapmamalarını, sadece kendilerini dinlendirmelerini istiyoruz. Pzr günleri dinlenecekler cmt günleri TYT deneme sınavı çözecekler.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Program 2 -->
+            <div id="program2" class="program-content hidden">
+                <div class="program-card bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-green-600 mb-8">
+                    <div class="bg-green-50 p-4">
+                        <h2 class="text-xl font-bold text-green-800 mb-1">SEÇENEK 2</h2>
+                        <h3 class="text-lg font-semibold text-gray-700">TYT ve AYT Dengeli Program</h3>
+                        <p class="text-sm text-gray-600 mt-2">
+                            <span class="font-medium">Kimler için:</span> TYT ve AYT'yi dengeli çalışmak isteyen öğrenciler
+                        </p>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="font-medium">Günlük Çalışma: 8 Saat</span>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-blue-600 mr-2"></div>
+                                <span class="text-gray-700">2 saat TYT Matematik</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-blue-400 mr-2"></div>
+                                <span class="text-gray-700">2 saat AYT Matematik</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                                <span class="text-gray-700">1 saat TYT Fizik</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-green-400 mr-2"></div>
+                                <span class="text-gray-700">1 saat AYT Fizik</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+                                <span class="text-gray-700">1 saat TYT Kimya</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-purple-400 mr-2"></div>
+                                <span class="text-gray-700">1 saat AYT Kimya</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                                Önerilen Kaynaklar
+                            </h4>
+                            <ul class="text-sm text-gray-600 space-y-1 pl-5 list-disc">
+                                <li>VDD 3D TYT Matematik</li>
+                                <li>3D VDD AYT Matematik</li>
+                                <li>Özcan Aykın TYT Fizik Video Kitabı</li>
+                                <li>Özcan Aykın AYT Fizik Video Kitabı</li>
+                                <li>Benim Hocam TYT Kimya Video Kitabı</li>
+                                <li>Benim Hocam AYT Kimya Video Kitabı</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-green-50 p-3 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-1 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Hedef
+                            </h4>
+                            <p class="text-sm text-gray-600">TYT Matematik, TYT Fizik ve TYT Kimya tamamen bitirilecek. AYT Matematik, AYT Fizik ve AYT Kimya'da 11. sınıf konuları bitirilecek.</p>
+                        </div>
+                        
+                        <div class="mt-5 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Önemli Not
+                            </h4>
+                            <p class="text-sm text-gray-700">
+                                20 Haziran'da başlayacak programımız, 8 Eylül'de tamamlanacaktır. Başlamadan önce 1 haftalık bir tatil planladık. Bu sürede öğrencilerimizden dersle ilgili hiçbir şey yapmamalarını, sadece kendilerini dinlendirmelerini istiyoruz. Pzr günleri dinlenecekler cmt günleri TYT deneme sınavı çözecekler.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Program 3 -->
+            <div id="program3" class="program-content hidden">
+                <div class="program-card bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-purple-600 mb-8">
+                    <div class="bg-purple-50 p-4">
+                        <h2 class="text-xl font-bold text-purple-800 mb-1">SEÇENEK 3</h2>
+                        <h3 class="text-lg font-semibold text-gray-700">TYT Odaklı Program</h3>
+                        <p class="text-sm text-gray-600 mt-2">
+                            <span class="font-medium">Kimler için:</span> TYT'ye odaklanmak isteyen öğrenciler
+                        </p>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <span class="font-medium">Günlük Çalışma: 8 Saat</span>
+                        </div>
+                        
+                        <div class="space-y-3 mb-6">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-blue-600 mr-2"></div>
+                                <span class="text-gray-700">2,5 saat TYT Matematik</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-yellow-500 mr-2"></div>
+                                <span class="text-gray-700">1,5 saat Geometri</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+                                <span class="text-gray-700">1,5 saat TYT Fizik</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-purple-500 mr-2"></div>
+                                <span class="text-gray-700">1,5 saat TYT Kimya</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+                                <span class="text-gray-700">1 saat TYT Biyoloji</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                                Önerilen Kaynaklar
+                            </h4>
+                            <ul class="text-sm text-gray-600 space-y-1 pl-5 list-disc">
+                                <li>Mert Hoca TYT Matematik Video Kitabı</li>
+                                <li>Kenan Kara Geometri Video Kitabı</li>
+                                <li>Özcan Aykın TYT Fizik Video Kitabı</li>
+                                <li>Benim Hocam TYT Kimya Video Kitabı</li>
+                                <li>Dr. Biyoloji Video Ders Kitabı</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-purple-50 p-3 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-1 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Hedef
+                            </h4>
+                            <p class="text-sm text-gray-600">TYT'de tüm konular tamamen bitirilecek.</p>
+                        </div>
+                        
+                        <div class="mt-5 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                            <h4 class="font-semibold text-gray-800 mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-600 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Önemli Not
+                            </h4>
+                            <p class="text-sm text-gray-700">
+                                20 Haziran'da başlayacak programımız, 8 Eylül'de tamamlanacaktır. Başlamadan önce 1 haftalık bir tatil planladık. Bu sürede öğrencilerimizden dersle ilgili hiçbir şey yapmamalarını, sadece kendilerini dinlendirmelerini istiyoruz. Pzr günleri dinlenecekler cmt günleri TYT deneme sınavı çözecekler.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Haftalık Program -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                <div class="bg-gray-100 p-4 border-b">
+                    <h2 class="text-xl font-bold text-gray-800">Haftalık Program Düzeni</h2>
+                </div>
+                
+                <div class="p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                            <h3 class="font-semibold text-yellow-800 mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Cumartesi
+                            </h3>
+                            <div class="space-y-2 text-gray-700">
+                                <p class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                    Sabah: TYT Denemesi
+                                </p>
+                                <p class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                    Öğleden Sonra: Deneme Analizi (en az 1 saat)
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                            <h3 class="font-semibold text-blue-800 mb-2 flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Pazar
+                            </h3>
+                            <div class="space-y-2 text-gray-700">
+                                <p class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-blue-600 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                    Dinlenme Günü
+                                </p>
+                                <p class="text-sm text-gray-600 mt-1">Öğrenci bu günü tamamen dinlenerek geçirecek.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="mt-8 text-center text-gray-500 text-sm">
+            <p>© 2025 YKS Çalışma Programı | 11. Sınıf Rehber Öğretmeni</p>
+        </footer>
+    </div>
+    
+    <script>
+        // TYT Net Hesaplama
+        function hesaplaNet() {
+            const turkce = parseFloat(document.getElementById('turkce').value) || 0;
+            const sosyal = parseFloat(document.getElementById('sosyal').value) || 0;
+            const matematik = parseFloat(document.getElementById('matematik').value) || 0;
+            const fen = parseFloat(document.getElementById('fen').value) || 0;
+            
+            // Validation
+            const errorMessage = document.getElementById('errorMessage');
+            if (isNaN(turkce) || isNaN(sosyal) || isNaN(matematik) || isNaN(fen) ||
+                turkce > 40 || turkce < 0 || sosyal > 20 || sosyal < 0 || 
+                matematik > 40 || matematik < 0 || fen > 20 || fen < 0) {
+                errorMessage.classList.remove('hidden');
+                return;
+            }
+            
+            errorMessage.classList.add('hidden');
+            
+            // Calculate average
+            const totalNet = turkce + sosyal + matematik + fen;
+            const maxNet = 120; // 40 + 20 + 40 + 20
+            const netOrtalama = (totalNet / maxNet) * 100;
+            
+            // Display result
+            document.getElementById('netOrtalama').textContent = netOrtalama.toFixed(1) + ' / 100';
+            
+            // Recommend program
+            let programOneri = '';
+            let programId = '';
+            
+            if (netOrtalama >= 70) {
+                programOneri = 'SEÇENEK 1 - AYT Ağırlıklı Program (TYT ortalamanız 70 ve üzeri olduğu için)';
+                programId = 'program1';
+            } else if (netOrtalama >= 55) {
+                programOneri = 'SEÇENEK 2 - TYT ve AYT Dengeli Program (TYT ortalamanız 55-70 arasında olduğu için)';
+                programId = 'program2';
+            } else {
+                programOneri = 'SEÇENEK 3 - TYT Odaklı Program (TYT ortalamanız 55 altında olduğu için)';
+                programId = 'program3';
+            }
+            
+            document.getElementById('programOneri').textContent = programOneri;
+            document.getElementById('programOneri').dataset.programId = programId;
+            
+            // Show result
+            document.getElementById('sonucAlani').classList.remove('hidden');
+        }
+        
+        function gosterProgram() {
+            const programId = document.getElementById('programOneri').dataset.programId;
+            
+            // Hide net calculation form
+            document.getElementById('netHesaplama').style.display = 'none';
+            
+            // Show program details
+            document.getElementById('programDetails').style.display = 'block';
+            
+            // Hide all program contents
+            const programContents = document.querySelectorAll('.program-content');
+            programContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Show selected program
+            document.getElementById(programId).style.display = 'block';
+        }
+        
+        function showProgram(programId) {
+            // Hide selection area
+            document.getElementById('programSecim').style.display = 'none';
+            
+            // Show program details container
+            document.getElementById('programDetails').style.display = 'block';
+            
+            // Hide all program contents
+            const programContents = document.querySelectorAll('.program-content');
+            programContents.forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            // Show selected program
+            document.getElementById(programId).style.display = 'block';
+        }
+        
+        function hideProgram() {
+            // Check if we came from net calculation
+            if (document.getElementById('netHesaplama').style.display === 'none') {
+                // Show net calculation form
+                document.getElementById('netHesaplama').style.display = 'block';
+                
+                // Hide program details
+                document.getElementById('programDetails').style.display = 'none';
+            } else {
+                // Show selection area
+                document.getElementById('programSecim').style.display = 'block';
+                
+                // Hide program details
+                document.getElementById('programDetails').style.display = 'none';
+            }
+        }
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94970414d13499f8',t:'MTc0ODg2Nzk5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
